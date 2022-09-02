@@ -1,5 +1,6 @@
 package com.example.compose02basicscodelab
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -49,7 +50,16 @@ private fun MyApp(names: List<String> = List(1000) { "$it" }) {
     }
 }
 
-@Preview(showBackground = true, widthDp = 320)
+@Preview(
+    name = "Light mode",
+    showBackground = true,
+    widthDp = 320
+)
+@Preview(
+    name = "Dark mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES, widthDp = 320
+)
 @Composable
 fun DefaultPreview() {
     Compose02BasicsCodelabTheme {

@@ -1,5 +1,6 @@
 package com.example.compose02basicscodelab.ui.screen
 
+import android.content.res.Configuration
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
@@ -21,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.compose02basicscodelab.ui.theme.Compose02BasicsCodelabTheme
 
 @Composable
 fun Greeting(name: String) {
@@ -58,10 +60,17 @@ fun Greeting(name: String) {
     }
 }
 
-@Preview
+@Preview(name = "Light mode")
+@Preview(
+    name = "Dark mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
 @Composable
 fun GreetingPreview() {
-    Greeting(name = "Jorge")
+    Compose02BasicsCodelabTheme {
+        Greeting(name = "Jorge")
+    }
 }
 
 @Composable
@@ -75,8 +84,15 @@ fun Greetings(names: List<String>) {
     }
 }
 
-@Preview
+@Preview(name = "Light mode")
+@Preview(
+    name = "Dark mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
 @Composable
 fun GreetingsPreview() {
-    Greetings(names = listOf("John", "Mary", "Anna"))
+    Compose02BasicsCodelabTheme {
+        Greetings(names = listOf("John", "Mary", "Anna"))
+    }
 }
