@@ -46,7 +46,7 @@ fun Greeting(name: String) {
                 Text(text = "Hello,")
                 Text(
                     text = "$name!",
-                    style = MaterialTheme.typography.h4
+                    style = MaterialTheme.typography.h4.copy(fontWeight = FontWeight.ExtraBold)
                 )
             }
             OutlinedButton(
