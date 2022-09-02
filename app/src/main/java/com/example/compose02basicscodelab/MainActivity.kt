@@ -3,6 +3,9 @@ package com.example.compose02basicscodelab
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -86,7 +89,13 @@ fun Greetings(names: List<String>) {
 @Composable
 fun Greeting(name: String) {
     var isExpanded by rememberSaveable { mutableStateOf(false) }
-    val extraPadding = if (isExpanded) 48.dp else 0.dp
+    val extraPadding by animateDpAsState(
+        targetValue = if (isExpanded) 48.dp else 0.dp,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        )
+    )
 
     Surface(
         color = MaterialTheme.colors.primary,
@@ -96,7 +105,7 @@ fun Greeting(name: String) {
             Column(
                 modifier = Modifier
                     .weight(1F)
-                    .padding(bottom = extraPadding)
+                    .padding(bottom = extraPadding.coerceAtLeast(0.dp))
             ) {
                 Text(text = "Hello,")
                 Text(text = "$name!")
