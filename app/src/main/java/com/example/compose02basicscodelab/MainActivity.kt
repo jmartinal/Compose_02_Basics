@@ -3,14 +3,12 @@ package com.example.compose02basicscodelab
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.compose02basicscodelab.ui.theme.Compose02BasicsCodelabTheme
@@ -28,13 +26,56 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun MyApp(names: List<String> = listOf("World", "Compose")) {
+    var shouldShowOnboarding by remember { mutableStateOf(true) }
+
     Surface(color = MaterialTheme.colors.background) {
+        if (shouldShowOnboarding) {
+            OnBoardingScreen(onContinueClicked = { shouldShowOnboarding = false })
+        } else {
+            Greetings(names)
+        }
+    }
+}
+
+@Composable
+fun OnBoardingScreen(onContinueClicked: () -> Unit) {
+
+    Surface {
         Column(
-            modifier = Modifier.padding(vertical = 4.dp)
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize()
         ) {
-            names.forEach { name ->
-                Greeting(name)
+            Text(
+                text = "Welcome to the Jetpack Compose Basics Codelab",
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+            Button(
+                modifier = Modifier.padding(vertical = 24.dp),
+                onClick = { onContinueClicked() }
+            ) {
+                Text("Continue")
             }
+        }
+    }
+}
+
+@Preview(showBackground = true, widthDp = 320, heightDp = 320)
+@Composable
+fun OnBoardingScreenPreview() {
+    Compose02BasicsCodelabTheme {
+        OnBoardingScreen(onContinueClicked = { })
+    }
+}
+
+@Composable
+fun Greetings(names: List<String>) {
+    Column(
+        modifier = Modifier.padding(vertical = 4.dp)
+    ) {
+        names.forEach { name ->
+            Greeting(name)
         }
     }
 }
@@ -43,14 +84,17 @@ private fun MyApp(names: List<String> = listOf("World", "Compose")) {
 fun Greeting(name: String) {
     var isExpanded by remember { mutableStateOf(false) }
     val extraPadding = if (isExpanded) 48.dp else 0.dp
+
     Surface(
         color = MaterialTheme.colors.primary,
         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
     ) {
         Row(modifier = Modifier.padding(24.dp)) {
-            Column(modifier = Modifier
-                .weight(1F)
-                .padding(bottom = extraPadding)) {
+            Column(
+                modifier = Modifier
+                    .weight(1F)
+                    .padding(bottom = extraPadding)
+            ) {
                 Text(text = "Hello,")
                 Text(text = "$name!")
             }
